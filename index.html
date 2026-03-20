@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Latina Pizza | Menú Digital Pro</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;500;700;900&family=Lato:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root { --primary-red: #b91c1c; --dark-stone: #1c1917; }
+        html { scroll-behavior: smooth; }
+        
+        body { 
+            /* --- CAMBIO AQUÍ: RUTA DE FONDO --- */
+            background-image: url('fondo.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+            background-color: #f5f5f4; /* Color de respaldo */
+            /* ---------------------------------- */
+            font-family: 'Lato', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        
+        /* Glassmorphism mejorado para que resalte sobre el fondo */
+        .glass-panel { 
+            background: rgba(255, 255, 255, 0.85); 
+            backdrop-filter: blur(12px); 
+            -webkit-backdrop-filter: blur(12px); /* Soporte para iOS */
+            border: 1px solid rgba(255, 255, 255, 0.6); 
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15); 
+        }
+
+        .glass-input { 
+            background: #ffffff; 
+            border: 1px solid #e5e7eb; 
+            border-radius: 10px; 
+            padding: 8px; 
+            font-size: 11px; 
+            font-weight: 700; 
+            outline: none; 
+            width: 100%; 
+        }
+
+        .fuente-elegante { font-family: 'Cormorant Gramond', serif; }
+
+        /* WhatsApp Flotante */
+        .whatsapp-float { 
+            position: fixed; bottom: 20px; right: 20px; 
+            background: #25d366; color: white; 
+            width: 55px; height: 55px; border-radius: 50%; 
+            display: flex; align-items: center; justify-content: center; 
+            font-size: 28px; box-shadow: 0 6px 15px rgba(0,0,0,0.2); 
+            z-index: 1000; 
+        }
+
+        /* Carrusel */
+        .slider-container { width: 100%; overflow: hidden; position: relative; }
+        .slider-wrapper { display: flex; transition: transform 0.6s ease-in-out; }
+        .slide { min-width: 100%; display: flex; justify-content: center; align-items: center; }
+        .slide img { 
+            width: 100%; 
+            height: auto; 
+            max-height: 500px; 
+            object-fit: contain; 
+            border-radius: 20px;
+            cursor: zoom-in;
+        }
+
+        /* Estilo de Fotos con Zoom */
+        .photo-circle { 
+            width: 75px; height: 75px; margin: 0 auto 10px; 
+            border-radius: 50%; overflow: hidden; 
+            border: 3px solid white; box-shadow: 0 4px 10px rgba(0,0,0,0.1); 
+            background: white; cursor: zoom-in;
+        }
+        @media (min-width: 768px) { .photo-circle { width: 100px; height: 100px; } }
+        .photo-circle img { width: 100%; height: 100%; object-fit: cover; }
+
+        /* Grid 4x4 Móvil */
+        .grid-4x4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+        .card-4x4 { padding: 8px 4px !important; text-align: center; cursor: pointer; transition: 0.2s; }
+        .card-4x4 h3 { font-size: 7.5px !important; font-weight: 900; line-height: 1.1; height: 16px; overflow: hidden; text-transform: uppercase; }
+
+        .btn-mini { background: var(--dark-stone); color: white; border-radius: 6px; padding: 5px; font-size: 8px; width: 100%; font-weight: 900; margin-top: 5px; }
+        .btn-promo { background: var(--primary-red); color: white; padding: 10px; border-radius: 12px; font-weight: 900; font-size: 11px; width: 100%; }
+
+        /* Ventana de Zoom (Lightbox) */
+        #lightbox { 
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+            background: rgba(0,0,0,0.9); z-index: 6000; 
+            justify-content: center; align-items: center; padding: 10px;
+            cursor: zoom-out;
+        }
+        #imgAmpliada { max-width: 100%; max-height: 90vh; border-radius: 15px; box-shadow: 0 0 30px rgba(255,255,255,0.2); }
+
+        /* Modal Configuración */
+        #modalConfig { 
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+            background: rgba(0,0,0,0.8); z-index: 5000; 
+            justify-content: center; align-items: center; padding: 15px; 
+            backdrop-filter: blur(4px);
+        }
+        .config-box { background: white; width: 100%; max-width: 420px; border-radius: 30px; overflow: hidden; animation: slideUp 0.3s ease-out; }
+        @keyframes slideUp { from { transform: translateY(50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+        .dia-tag { background: #fee2e2; color: #b91c1c; font-size: 8px; font-weight: 900; padding: 2px 8px; border-radius: 20px; text-transform: uppercase; margin-bottom: 5px; display: inline-block; }
+        .metodo-pago { border: 2px solid #e5e7eb; border-radius: 12px; padding: 10px; text-align: center; cursor: pointer; transition: 0.3s; }
+        .metodo-pago.active { border-color: var(--primary-red); background: #fef2f2; color: var(--primary-red); }
+    </style>
+</head>
+<body>
+    ```
+
+### Detalles de la actualización:
+* **Adaptabilidad:** Al usar `background-size: cover`, la imagen se ajustará automáticamente tanto si el usuario abre la página desde un iPhone (vertical) como desde una computadora de escritorio (horizontal).
+* **Legibilidad:** He aumentado ligeramente la opacidad de los paneles blancos (`rgba(255, 255, 255, 0.85)`) para asegurar que el texto sea fácil de leer sobre cualquier imagen de fondo que utilices.
+
+¿Te gustaría que ajuste la transparencia de los paneles para que se vea más o menos el fondo?
